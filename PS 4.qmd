@@ -1,0 +1,75 @@
+---
+title: "STATS 506 Problem Set 4"
+author: "Yilin Chen 30221403"
+format:
+  html:
+    embed-resources: true
+editor: visual
+toc: true
+---
+
+### Link to my GitHub repository: <https://github.com/yilinc929/stats506_problem_set_4>
+
+## Problem 1
+
+### part a
+
+```{r}
+library(dplyr)
+library(nycflights13)
+### The first table: reporting the mean and median departure delay per airport.
+dep_delay_per_airport <- flights %>% 
+  group_by(dest)%>%
+  filter(n() >= 10) %>% # Filter out destinations with fewer than 10 flights
+  summarize(mean_del_time=mean(dep_delay, na.rm = TRUE),
+            median_del_time=median(dep_delay, na.rm = TRUE)) %>%
+  arrange(desc(mean_del_time))
+head(dep_delay_per_airport,10)
+```
+
+```{r}
+### The second table: reporting the mean and median arrival delay per airport. 
+arrival_delay_per_airport <- flights %>%
+  group_by(dest)%>%
+  filter(n() >= 10) %>% # Filter out destinations with fewer than 10 flights
+  summarize(mean_del_time=mean(arr_delay, na.rm = TRUE),
+            median_del_time=median(arr_delay, na.rm = TRUE)) %>%
+  arrange(desc(mean_del_time))
+head(arrival_delay_per_airport,10)
+```
+
+### part b
+
+Flight No.1499 is the fastest flight, with a average speed of 703.3846 MPH and a total number of flights of 397 times.
+
+```{r}
+### Find out the flight with fastest average speed in MPH and display the flight number.
+fatest_avg_speed <- flights %>%
+  summarize(avg_speed=distance/(air_time/60),
+            flight_no=flight) %>%
+  arrange(desc(avg_speed))
+head(fatest_avg_speed)
+```
+
+```{r}
+num_flights <- flights %>%
+  group_by(flight) %>%
+  summarize(avg_speed=distance/(air_time/60), #calculate the average speed in MPH since the air_time is in miniutes.
+            count=n()) %>%
+  arrange(desc(avg_speed))
+head(num_flights,1)
+```
+
+## Problem 2
+
+## Problem 3
+
+## Problem 4
+
+### SAS
+
+### Stata
+
+### R
+
+### Sources that I used:
