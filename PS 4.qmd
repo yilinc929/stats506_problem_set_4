@@ -62,6 +62,40 @@ head(num_flights,1)
 
 ## Problem 2
 
+```{r}
+average_fn<-function(x, median=FALSE){
+  if (median){
+    result<-median(x, na.rm=TRUE)}
+  else{
+    result<-mean(x, na.rm=TRUE)}
+  return(result)
+}
+```
+
+```{r}
+nnmaps<-read.csv()
+get_temp<-function(month,year,data,celsius=FALSE,average_fn){
+  if (is.character(month)){
+    month<-match(tolower(month), tolower(month.name))}
+  if (is.na(month)){
+    stop("Invalid month name.")}
+  
+  filtered_data <- nnmaps %>%
+    filter(month == month, year == year)
+    
+  avg_temp<-filtered_data %>%
+    summarize(avg_temp=average_fn(temp))
+  
+  if (celsius){
+    avg_temp<-avg_temp %>% mutate(avg_temp=(avg_temp-32)*5/9)}
+  
+  avg_temp<-avg_temp[1]
+  
+  return(avg_temp)
+}
+
+```
+
 ## Problem 3
 
 ## Problem 4
@@ -73,3 +107,9 @@ head(num_flights,1)
 ### R
 
 ### Sources that I used:
+
+https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.4/etsug/etsug_tsdata_sect069.htm
+
+https://documentation.sas.com/doc/en/pgmsascdc/9.4_3.4/statug/statug_glm_toc.htm
+
+https://www.statology.org/sas-histogram/
